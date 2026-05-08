@@ -1,19 +1,10 @@
-__pycache__/
-*.pyc
-*.pyo
-*.egg-info/
-.venv/
-venv/
 .env
 .env.local
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-
-# Persistent browser profile - has cookies, never commit
-data/browser_profile/
 
 # Editor / OS
 .vscode/
 .idea/
 .DS_Store
+
+# Claude Code per-user settings
+.claude/settings.local.json

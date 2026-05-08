@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Grocery Bridge — Options</title>
+    <style>
+      body { font: 14px/1.4 system-ui, -apple-system, "Segoe UI", sans-serif; max-width: 600px; margin: 32px auto; padding: 0 16px; color: #1f2328; }
+      h1 { font-size: 18px; }
+      label { display: block; margin: 12px 0 4px; font-weight: 500; }
+      input[type=password], input[type=text] { width: 100%; padding: 6px 8px; font: inherit; border: 1px solid #d0d7de; border-radius: 6px; }
+      button { font: inherit; padding: 6px 14px; border: 1px solid #1a7f37; background: #1a7f37; color: #fff; border-radius: 6px; cursor: pointer; margin-top: 12px; }
+      .muted { color: #666; }
+      .err { color: #b00020; }
+      .ok { color: #1a7f37; }
+      a { color: #0969da; }
+    </style>
+  </head>
+  <body>
+    <h1>Grocery Bridge — Options</h1>
+    <p class="muted">
+      Get your Todoist token at
+      <a href="https://todoist.com/app/settings/integrations/developer" target="_blank" rel="noopener">
+        todoist.com / Settings / Integrations / Developer
+      </a>.
+    </p>
+
+    <label for="token">Todoist API token</label>
+    <input id="token" type="password" autocomplete="off" />
+
+    <label for="project">Todoist project name (case-insensitive)</label>
+    <input id="project" type="text" value="Groceries" />
+
+    <button id="save">Save &amp; verify</button>
+
+    <p id="msg" class="muted"></p>
+
+    <script type="module" src="options.js"></script>
+  </body>
+</html>
