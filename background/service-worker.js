@@ -78,6 +78,8 @@ async function routeMessage(msg) {
       return {};
     case "pick_chosen":
       return pickChosen(msg);
+    case "refine_search":
+      return refineSearch(msg);
     case "promote_sku":
       await state.setSku(msg.name, msg.url);
       return { promoted: true };
@@ -233,6 +235,25 @@ async function pickChosen(msg) {
   });
   await chrome.storage.session.remove(state.SESS_KEYS.PICK_CANDIDATES);
   await chrome.tabs.update(s.tabId, { url: msg.url });
+  return { ok: true };
+}
+
+async function refineSearch(msg) {
+  const s = await state.getQueueState();
+  if (!s.tabId) return { ok: false, error: "no_tab" };
+  const q = (msg.query || "").trim();
+  if (!q) return { ok: false, error: "empty_query" };
+  const newUrl = `https://www.walmart.com/search?q=${encodeURIComponent(q)}`;
+  const queue = s.queue.slice();
+  if (queue[s.cursor]) {
+    queue[s.cursor] = { ...queue[s.cursor], target_url: newUrl, refined_query: q };
+  }
+  await state.setSession({
+    [state.SESS_KEYS.QUEUE]: queue,
+    [state.SESS_KEYS.STATUS]: state.STATUSES.RUNNING,
+  });
+  await chrome.storage.session.remove(state.SESS_KEYS.PICK_CANDIDATES);
+  await chrome.tabs.update(s.tabId, { url: newUrl });
   return { ok: true };
 }
 

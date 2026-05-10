@@ -112,6 +112,20 @@ label.dry {
 .cand .title { font-weight: 500; }
 .cand .price { color: var(--muted); font-size: 12px; }
 
+.refine {
+  display: flex;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.refine input {
+  flex: 1;
+  font: inherit;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+}
+
 .last-run-summary {
   margin-top: 12px;
   padding-top: 8px;

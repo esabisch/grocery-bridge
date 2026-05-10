@@ -149,9 +149,14 @@ async function renderPick(s) {
   const out = await chrome.storage.session.get(state.SESS_KEYS.PICK_CANDIDATES);
   const cands = out[state.SESS_KEYS.PICK_CANDIDATES] || [];
   const item = s.queue[s.cursor];
+  const prefill = item?.refined_query || item?.name || "";
   root.innerHTML = `
     <p>Pick a Walmart result for <b>${esc(item?.name || "")}</b>:</p>
     <div id="cands"></div>
+    <form id="refine-form" class="refine">
+      <input type="text" id="refine-q" placeholder="Narrow the search..." value="${esc(prefill)}" />
+      <button type="submit">Refine</button>
+    </form>
     <button id="abort">Abort</button>
   `;
   const wrap = document.getElementById("cands");
@@ -168,6 +173,12 @@ async function renderPick(s) {
     `;
     btn.addEventListener("click", () => onPick(item, c));
     wrap.appendChild(btn);
+  });
+  document.getElementById("refine-form").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const q = document.getElementById("refine-q").value.trim();
+    if (!q) return;
+    await chrome.runtime.sendMessage({ type: "refine_search", query: q });
   });
   document.getElementById("abort").onclick = async () => {
     await chrome.runtime.sendMessage({ type: "abort" });
