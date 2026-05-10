@@ -27,8 +27,10 @@ async function processCurrent(msg) {
     return { ok: false, status: "challenged" };
   }
 
-  // Give the SPA a moment to hydrate before we poke at it.
-  await sleep(1500);
+  // Give the SPA a moment to hydrate before we poke at it. Walmart search
+  // pages especially are slow to render organic tiles after the sponsored
+  // ones; under-waiting causes a "no results" false negative.
+  await sleep(2500);
 
   if (location.pathname.startsWith("/search")) {
     const candidates = GB_DOM.getSearchResults(3);
